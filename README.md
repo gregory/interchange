@@ -46,6 +46,18 @@ mail.deliver some_message
 
 mail.use :null # switch back to the null implementation.
 ```
+Sometimes you'll want to use an implementation for the duration of a block:
+
+```
+mailer = Mailer.new
+mailer.register :snail_mail, SnailMail.new
+
+mailer.with(:smtp) do |smtp_mailer|
+  smtp_mailer.deliver some_message
+end
+
+mailer.deliver some_message_with_snail_mail
+```
 
 These objects are useful when you have an interaction that needs
 to happen but implementations can vary widely. You can also use this
